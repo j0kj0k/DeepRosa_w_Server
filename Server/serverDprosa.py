@@ -169,8 +169,9 @@ class serverDprosa():
         return self.timegap_dict, self.cluster_dict
     
     '''------------------------------------------------------------ SORTING ------------------------------------------------------------'''
-    def sort_shoppingList(self,shopping_list, timegap_dict, cluster_dict):
-        shopping_list = sort_shopping_list(None, shopping_list, timegap_dict, cluster_dict)
+    def sort_shoppingList(self,X,shopping_list, timegap_dict, cluster_dict):
+        shopping_list = sort_shopping_list(X, shopping_list, timegap_dict, cluster_dict)
+        shopping_list.pop(0)
         return shopping_list, timegap_dict, cluster_dict
     
     def convertData(self,string):

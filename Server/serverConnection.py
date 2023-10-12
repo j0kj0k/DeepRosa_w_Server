@@ -39,11 +39,35 @@ def perform_sort(client_socket,data):
     # Perform action 2 based on the received data
     print("Performing sorting with list:", data)
 
+    stage, data = data.split('^')
+    data = data.strip()
+
+    if stage == "start":
+        X = None
+    elif stage == "mid":
+        X, data = data.split('/')
+        data = data.strip()
+        data = X + ',' + data
+
+    elif stage == "end":
+        X = None
+    else:
+        print("Unknown stage description:", stage)
+
     sD = serverDprosa()
     itemList = sD.convertData(data)
-    sortedList, timegap_dict, cluster_dict = sD.sort_shoppingList(itemList, timegap_dict, cluster_dict)
-    sortedItem = ', '.join(sortedList)
-    print(sortedItem)
+
+    #print(stage+" "+X+" "+data)
+
+    if stage == "end":
+        sortedItem = ' '.join(itemList)
+        print(sortedItem)
+
+    else:
+        sortedList, timegap_dict, cluster_dict = sD.sort_shoppingList(X, itemList, timegap_dict, cluster_dict)
+        sortedItem = ', '.join(sortedList)
+        print(sortedItem)
+
     print("*****************************************")
     print("*****************************************")
     client_socket.send(sortedItem.encode('utf-8'))
